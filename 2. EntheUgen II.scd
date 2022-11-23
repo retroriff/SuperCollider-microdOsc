@@ -1,5 +1,14 @@
 /**
-* Malferit
+_____________________________________________________________________________/\\\________/\\\\\_________________________________
+ ____________________________________________________________________________\/\\\______/\\\///\\\_______________________________
+  ______________________/\\\__________________________________________________\/\\\____/\\\/__\///\\\_____________________________
+   ____/\\\\\__/\\\\\___\///______/\\\\\\\\__/\\/\\\\\\\______/\\\\\___________\/\\\___/\\\______\//\\\__/\\\\\\\\\\_____/\\\\\\\\_
+    __/\\\///\\\\\///\\\__/\\\___/\\\//////__\/\\\/////\\\___/\\\///\\\____/\\\\\\\\\__\/\\\_______\/\\\_\/\\\//////____/\\\//////__
+     _\/\\\_\//\\\__\/\\\_\/\\\__/\\\_________\/\\\___\///___/\\\__\//\\\__/\\\////\\\__\//\\\______/\\\__\/\\\\\\\\\\__/\\\_________
+      _\/\\\__\/\\\__\/\\\_\/\\\_\//\\\________\/\\\_________\//\\\__/\\\__\/\\\__\/\\\___\///\\\__/\\\____\////////\\\_\//\\\________
+       _\/\\\__\/\\\__\/\\\_\/\\\__\///\\\\\\\\_\/\\\__________\///\\\\\/___\//\\\\\\\/\\____\///\\\\\/______/\\\\\\\\\\__\///\\\\\\\\_
+        _\///___\///___\///__\///_____\////////__\///_____________\/////______\///////\//_______\/////_______\//////////_____\////////__
+
 * @date: May, 2021
 */
 
@@ -28,24 +37,23 @@ PdefAllGui.new;
 ~synth2.play;
 ~synth3.play;
 ~synth4.play;
-~bad.play;
+~bad.stop;
 ~ei.play;
 ~ei2.play;
-~ei3.play;
 ~hihat.play;
 ~synth.release(20);
 ~synth2.release(20);
 ~synth3.release(20);
 ~synth4.release(20);
 ~bad.release(20);
-~ei.release(20);
+~ei3.release(20);
 )
 
 (
 ~synth = {
     var lfo1, lfo2;
     lfo1 = LFSaw.kr(~tempo.kr/4).range(1, 3).tanh;
-    lfo2 = LFPulse.kr(~tempo / 2).range(0.2, 1);
+    lfo2 = LFPulse.kr(~tempo.kr / 2).range(0.2, 1);
 
     Pulse.ar(
         freq: [100, 101] * LFPulse.kr(~tempo.kr * 2).range(0.5, 1),
@@ -60,7 +68,7 @@ PdefAllGui.new;
     SinOscFB.ar(
         freq: [100, 101] * LFPulse.kr(~tempo.kr * 4).range(2, 3.5),
         feedback: LFSaw.kr(~tempo.kr / 3).range(0.1, 1),
-        mul: LFPulse.kr(~tempo / 2).range(0.2, 0.5)
+        mul: LFPulse.kr(~tempo.kr / 2).range(0.2, 0.5)
     );
 }
 )
@@ -68,12 +76,12 @@ PdefAllGui.new;
 (
 ~synth3 = {
     var lfo1, lfo2;
-    lfo1 = LFSaw.kr(~tempo.kr/4).range(1, 3).tanh;
-    lfo2 = LFPulse.kr(~tempo / 4).range(0.1, 0.5);
+    lfo1 = LFSaw.kr(~tempo.kr / 4).range(1, 3).tanh;
+    lfo2 = LFPulse.kr(~tempo.kr / 4).range(0.1, 0.5);
 
     Pulse.ar(
         freq: [100, 101] * LFPulse.kr(~tempo.kr * 4).range(0.5, 1.5),
-        width: LFSaw.kr(~tempo.kr/3).range(0.1,0.5),
+        width: LFSaw.kr(~tempo.kr / 3).range(0.1, 0.5),
         mul: lfo1 * lfo2
     );
 }
@@ -82,9 +90,9 @@ PdefAllGui.new;
 (
 ~bad = {
     SinOscFB.ar(
-        freq: [200, 101] * LFPulse.kr(~tempo).range(3, 4.5),
+        freq: [200, 101] * LFPulse.kr(~tempo.kr).range(3, 4.5),
         feedback: LFSaw.kr(~tempo.kr / 4).range(0, 1),
-        mul: LFPulse.kr(~tempo / 4).range(0.1, 0.3)
+        mul: LFPulse.kr(~tempo.kr / 4).range(0.1, 0.3)
     );
 }
 )
@@ -103,7 +111,7 @@ PdefAllGui.new;
 ~ei = {
     var lfo1, lfo2;
     lfo1 = LFSaw.kr(~tempo.kr/4).range(1, 3).tanh;
-    lfo2 = LFPulse.kr(~tempo / 4).range(0.1, 0.5);
+    lfo2 = LFPulse.kr(~tempo.kr / 4).range(0.1, 0.5);
 
     Pulse.ar(
         freq: [100, 101] * LFSaw.kr(~tempo.kr / 4).bipolar(3),
@@ -127,110 +135,7 @@ PdefAllGui.new;
     SinOscFB.ar(
         freq: [100, 101] * lfo1,
         feedback: LFSaw.kr(~tempo.kr / 3).range(0.1, 1),
-        mul: LFPulse.kr(~tempo / 2).range(0.2, 1) * lfo2
+        mul: LFPulse.kr(~tempo.kr / 2).range(0.2, 1) * lfo2
     );
 }
 )
-
-
-(
-~ei3 = {
-    SinOscFB.ar(
-        freq: [100, 101],
-        feedback: LFSaw.kr(~tempo.kr / 4).range(0.1, 1),
-        mul: LFPulse.kr(~tempo / 2).range(0.2, 1)
-    );
-}
-)
-
-
-(
-~hihat = {
-    var lfo1, lfo2;
-    lfo1 = Trig.ar(in: LFPulse.ar(~tempo.kr * 4), dur: 0.01).lag;
-    lfo2 = LFPulse.kr(~tempo.kr / 2).range(1, 0.8);
-
-    HPF.ar(
-        in: WhiteNoise.ar(1) !2,
-        freq: 4000,
-        mul: lfo1 * 0.5
-    ) * 0.15;
-}
-)
-
-
-~ei3.play
-
-(
-// FX Controllers
-~reverb.play;
-~blowPass.play;
-~hpf.play;
-~lpf.play;
-~delay.play;
-~reverb.release(20);
-~blowPass.release(20);
-~delay.release(20);
-)
-
-(
-~reverb = {
-    GVerb.ar(
-        in: ~ei3.ar,
-        roomsize: LFPulse.ar(~tempo.kr / 4).range(1, 10),
-        revtime: 3,
-        damping: 0.5,
-        inputbw: 0.5,
-        spread: 15,
-        drylevel: 1,
-        mul: 0.5
-    );
-}
-)
-
-(
-~blowPass = {
-    BLowPass4.ar(
-        in: ~ei3.ar,
-        freq: SinOsc.kr(~tempo.kr / 8).range(700, 20000),
-        rq: 0.1
-    );
-}
-)
-
-(
-~hpf = {
-    RHPF.ar(
-        in: ~ei3.ar,
-        freq: SinOsc.kr(~tempo.kr / 8).range(1000, 3000),
-        rq: 0.1,
-        mul: LFPulse.kr(~tempo.kr).range(0.1, 1)
-    );
-}
-)
-
-(
-~lpf = {
-    RLPF.ar(
-        in: ~ei3.ar,
-        freq: LFSaw.kr(~tempo.kr / 8).range(200, 700),
-        rq: 0.1,
-        mul: LFPulse.kr(~tempo.kr).range(0, 1)
-    );
-}
-)
-
-(
-~delay = {
-    var lfo;
-    lfo = SinOsc.kr(0.1).exprange(0.05, 0.5);
-
-    CombC.ar(
-        in: ~ei3.ar,
-        maxdelaytime: ~tempo.kr * 4,
-        delaytime: lfo,
-        mul: ~tempo.kr
-    );
-}
-)
-
