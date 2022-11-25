@@ -50,7 +50,6 @@ b = Buffer.loadCollection(s, Scale.minorPentatonic.degrees);
 }
 )
 
-
 (
 ~fx1 = {
     GVerb.ar(
