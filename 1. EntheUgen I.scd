@@ -13,35 +13,6 @@ _____________________________________________________________________________/\\
 */
 
 (
-// Start Proxy
-p = ProxySpace(s).push;
-p[\tempo] = 130 / 60;
-p.quant = 4;
-p.fadeTime = 30;
-StageLimiter.new(2);
-)
-
-(
-// Panes
-s.plotTree;
-s.scope(2);
-s.makeWindow;
-m = ProxyMixer(p, 8);
-m.parent.alwaysOnTop_(true);
-PdefAllGui.new;
-)
-
-(
-// Controllers
-~bass.play;
-~gaza.play;
-~beat.play;
-~bass.release(20);
-~gaza.release(20);
-~beat.release(20);
-)
-
-(
 ~bass = {
     var lfo1, lfo2;
     lfo1 = LFPulse.ar(~tempo.kr / 2).range(0.5, 1);
@@ -56,7 +27,6 @@ PdefAllGui.new;
 )
 
 (
-~gaza.fadeTime = 60;
 ~gaza = {
     Mix.fill(10, {
         Ringz.ar(
@@ -69,7 +39,8 @@ PdefAllGui.new;
             decaytime: 0.6
         );
     });
-}
+};
+~gaza.fadeTime = 60;
 )
 
 (

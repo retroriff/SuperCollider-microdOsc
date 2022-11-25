@@ -13,39 +13,6 @@ _____________________________________________________________________________/\\
 */
 
 (
-// Start Proxy
-p = ProxySpace(s).push;
-p[\tempo] = 110 / 60;
-p.quant = 4;
-p.fadeTime = 20;
-StageLimiter.new(2);
-)
-
-(
-// Panes
-s.plotTree;
-s.scope(2);
-s.makeWindow;
-m = ProxyMixer(p, 8);
-m.parent.alwaysOnTop_(true);
-PdefAllGui.new;
-)
-
-(
-// Controllers
-~muscimol.release(20);
-~reverb.play;
-~blowPass.play;
-~hpf.play;
-~lpf.play;
-~delay.play;
-~reverb.release(20);
-~blowPass.release(20);
-~delay.release(20);
-)
-
-
-(
 ~muscimol = {
     SinOscFB.ar(
         freq: [100, 101],
@@ -54,7 +21,6 @@ PdefAllGui.new;
     );
 }
 )
-
 
 (
 ~hihat = {
@@ -73,7 +39,7 @@ PdefAllGui.new;
 (
 ~reverb = {
     GVerb.ar(
-        in: ~ei3.ar,
+        in: ~muscimol.ar,
         roomsize: LFPulse.ar(~tempo.kr / 4).range(1, 10),
         revtime: 3,
         damping: 0.5,
@@ -88,7 +54,7 @@ PdefAllGui.new;
 (
 ~blowPass = {
     BLowPass4.ar(
-        in: ~ei3.ar,
+        in: ~muscimol.ar,
         freq: SinOsc.kr(~tempo.kr / 8).range(700, 20000),
         rq: 0.1
     );
@@ -98,7 +64,7 @@ PdefAllGui.new;
 (
 ~hpf = {
     RHPF.ar(
-        in: ~ei3.ar,
+        in: ~muscimol.ar,
         freq: SinOsc.kr(~tempo.kr / 8).range(1000, 3000),
         rq: 0.1,
         mul: LFPulse.kr(~tempo.kr).range(0.1, 1)
@@ -109,7 +75,7 @@ PdefAllGui.new;
 (
 ~lpf = {
     RLPF.ar(
-        in: ~ei3.ar,
+        in: ~muscimol.ar,
         freq: LFSaw.kr(~tempo.kr / 8).range(200, 700),
         rq: 0.1,
         mul: LFPulse.kr(~tempo.kr).range(0, 1)
@@ -123,7 +89,7 @@ PdefAllGui.new;
     lfo = SinOsc.kr(0.1).exprange(0.05, 0.5);
 
     CombC.ar(
-        in: ~ei3.ar,
+        in: ~muscimol.ar,
         maxdelaytime: ~tempo.kr * 4,
         delaytime: lfo,
         mul: ~tempo.kr

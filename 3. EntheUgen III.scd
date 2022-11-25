@@ -13,38 +13,6 @@ _____________________________________________________________________________/\\
 */
 
 (
-// Start Proxy
-p = ProxySpace(s).push;
-p[\tempo] = 110 / 60;
-p.quant = 4;
-p.fadeTime = 20;
-StageLimiter.new(2);
-)
-
-(
-// Panes
-s.plotTree;
-s.scope(2);
-s.makeWindow;
-m = ProxyMixer(p, 8);
-m.parent.alwaysOnTop_(true);
-PdefAllGui.new;
-)
-
-(
-// Controllers
-~a1.play;
-~a2.play;
-~b1.play;
-~b0.play;
-~b2.play;
-~b3.stop;
-~blowPass.play;
-~a2.release(20);
-~b2.release(20);
-)
-
-(
 ~a1 = {
     var input;
     Klank.ar(

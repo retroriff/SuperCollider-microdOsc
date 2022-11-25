@@ -13,43 +13,6 @@ _____________________________________________________________________________/\\
 */
 
 (
-// Start Proxy
-p = ProxySpace(s).push;
-p[\tempo] = 110 / 60;
-p.quant = 4;
-p.fadeTime = 20;
-StageLimiter.new(2);
-)
-
-(
-// Panes
-s.plotTree;
-s.scope(2);
-s.makeWindow;
-m = ProxyMixer(p, 8);
-m.parent.alwaysOnTop_(true);
-PdefAllGui.new;
-)
-
-(
-// Controllers
-~synth.play;
-~synth2.play;
-~synth3.play;
-~synth4.play;
-~bad.stop;
-~ei.play;
-~ei2.play;
-~hihat.play;
-~synth.release(20);
-~synth2.release(20);
-~synth3.release(20);
-~synth4.release(20);
-~bad.release(20);
-~ei3.release(20);
-)
-
-(
 ~synth = {
     var lfo1, lfo2;
     lfo1 = LFSaw.kr(~tempo.kr/4).range(1, 3).tanh;
