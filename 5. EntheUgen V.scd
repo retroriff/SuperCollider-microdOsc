@@ -11,32 +11,54 @@ _____________________________________________________________________________/\\
 */
 
 (
-s.makeWindow;
-s.freqscope;
-s.plotTree;
-s.scope(2);
-m = ProxyMixer(p, 8);
-m.parent.alwaysOnTop_(true);
+~blip1 = {
+    var sig1, sig2;
+    sig1 = Saw.ar(
+        freq: [MouseX.kr(200, 400), MouseX.kr(200, 400) * 1.05]
+    );
+    sig2 = LFPulse.kr(
+        freq: SinOscFB.kr(~tempo.kr / 8).range(4, 16),
+        width:SinOscFB.kr(~tempo.kr / 8).range(0.2, 1),
+    );
+    sig1 * sig2 * 0.2;
+}
 )
 
 (
-p = ProxySpace(s).push;
-p[\tempo] = 110/60;
-p.quant = 2;
-p.fadeTime = 0;
-currentEnvironment;
-StageLimiter.new(2);
+~blip2 = {
+    var sig1, sig2;
+    sig1 = LFPulse.kr(
+        freq: ~tempo.kr * 8,
+        iphase: 0,
+        width: 0.2,
+        mul: SinOscFB.kr(~tempo.kr / 16).range(0.1, 1)
+    );
+    sig2 = SinOsc.ar(300);
+    sig1 * sig2;
+}
 )
 
-~blip1.play
-~blip2.play
-~blip3.play
-~blip4.play
+(
+~blip3 = {
+    var sig1, sig2;
+    sig1 = LFPulse.kr(
+        freq: ~tempo.kr * 8,
+        iphase: 1,
+        width: 0.2,
+        mul: SinOscFB.kr(~tempo.kr / 16).range(0.1, 0.2)
+    );
+    sig2 = SinOsc.ar(freq: [600, 605], mul: 0.2);
+    sig1 * sig2;
+}
+)
 
-~blip1 = { Saw.ar([MouseX.kr(200, 400), MouseX.kr(200, 400)*1.05]) * LFPulse.kr(SinOscFB.kr(~tempo.kr / 8).range(4, 16), width:SinOscFB.kr(~tempo.kr / 8).range(0.2, 1)) }
-
-~blip2 = { LFPulse.kr(~tempo.kr * 8, 0, 0.2, SinOscFB.kr(~tempo.kr / 16).range(0.1, 1)) * SinOsc.ar(300) }
-
-~blip3 = { LFPulse.kr(~tempo.kr * 8, 1, 0.2, SinOscFB.kr(~tempo.kr / 16).range(0.2, 1)) * SinOsc.ar([600, 605]) * 0.6 }
-
-~blip4 = { LFPulse.ar(SinOscFB.kr(~tempo.kr / 4, 1).range(20, 600), 0, LFSaw.kr(~tempo.kr).range(0, 1), SinOsc.kr(~tempo.kr / 4).range(0.2, 1)) * 0.5 }
+(
+~blip4 = {
+    LFPulse.ar(
+        freq: SinOscFB.kr(freq: ~tempo.kr * 4, feedback: 1).range(300, 600),
+        iphase: 0,
+        width: SinOscFB.kr(~tempo.kr).range(0, 1),
+        mul: SinOsc.kr(~tempo.kr / 4).range(0.2, 1) * 0.1
+    );
+}
+)
