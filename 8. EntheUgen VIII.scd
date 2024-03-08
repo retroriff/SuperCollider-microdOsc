@@ -14,7 +14,7 @@
 */
 
 (
-~muscimol = {
+~musc = {
     SinOscFB.ar(
         freq: [100, 101],
         feedback: LFSaw.kr(~tempo.kr / 4).range(0.1, 1),

@@ -17,25 +17,22 @@
 (
 a = Buffer.loadCollection(s, Scale.minorPentatonic.degrees);
 b = Buffer.loadCollection(s, [0, 12, 15, 19]);
+
 ~dopse = {
 	var index, sig, pch, freq;
 	index = LFDNoise0.kr(~tempo.kr / 4).range(0, 1);
-	index = index * BufFrames.kr(a);
+    index = (index * BufFrames.kr(a)).poll;
     pch = (Index.kr(a, index) + 40).lag;
 	freq = pch.midicps;
 	sig = VarSaw.ar(freq, mul: 0.2!2);
 	sig = CombN.ar(sig, 0.31, 0.31, 2, 1);
-};
+}
 )
 
 (
 b = Buffer.loadCollection(s, Scale.minorPentatonic.degrees);
+
 ~degree2 = {
-
-
-
-
-
     var freq = Index.kr(
         bufnum: b,
         in: LFSaw.kr(~tempo.kr / 4).range(0, 5)
@@ -101,6 +98,3 @@ b = Buffer.loadCollection(s, Scale.minorPentatonic.degrees);
     );
 }
 )
-
-
-(scsu)

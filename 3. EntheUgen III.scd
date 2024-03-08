@@ -44,7 +44,11 @@
     LFSaw.ar(
         freq: ([28, 40] + LFNoise0.ar(~tempo.kr * 8).range(0.1, 4)).midicps,
         iphase: 0,
-        mul: Decay.ar(in: Impulse.ar(~tempo.kr).lag, decayTime: 3, mul: 0.3)
+        mul: Decay.ar(
+            in: Impulse.ar(~tempo.kr).lag,
+            decayTime: 3,
+            mul: 0.3
+        )
     )
 }
 )
@@ -52,7 +56,7 @@
 (
 ~b1 = {
     LFSaw.ar(
-        freq: ([28,40] + LFNoise0.ar(~tempo.kr / 2).range(1, 1)).midicps,
+        freq: ([28, 40] + LFNoise0.ar(~tempo.kr / 2).range(1, 1)).midicps,
         iphase: 0,
         mul: LFSaw.kr(~tempo.kr / 2).range(0, 0.3)
     )
@@ -76,7 +80,9 @@
         iphase: 0,
         mul: LFSaw.kr(~tempo.kr / 4).range(0.01, 0.3)
     );
+
     var sig2 = LFPulse.ar(~tempo.kr / 8).range(0.2, 1);
+
     sig1 * sig2;
 }
 )

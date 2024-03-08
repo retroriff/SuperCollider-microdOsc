@@ -13,31 +13,12 @@ _____________________________________________________________________________/\\
 */
 
 (
-// Start Proxy
-p = ProxySpace(s).push;
-p[\tempo] = 110 / 60;
-p.quant = 4;
-p.fadeTime = 20;
-StageLimiter.new(2);
-)
-
-(
-// Panes
-s.plotTree;
-s.scope(2);
-s.makeWindow;
-m = ProxyMixer(p, 8);
-m.parent.alwaysOnTop_(true);
-PdefAllGui.new;
-)
-
-(
 ~bass = {
     var lfo1 = LFPulse.ar(~tempo.kr / 2).range(0.5, 1);
     var lfo2 = SinOscFB.ar(~tempo.kr * 8).range(0.5, 1);
 
     SinOscFB.ar(
-        freq: [200, 210] * lfo1 * lfo2,
+        freq: [55, 56].midicps * lfo1 * lfo2,
         feedback: SinOsc.kr(~tempo.kr / 16, 0).max(0),
         mul: 1
     ).tanh;
@@ -63,12 +44,20 @@ PdefAllGui.new;
 
 (
 ~beat = {
-    var lfo = Line.kr(start: 400, end: 600, dur: 200);
-    var freq1 = Trig.ar(LFPulse.ar(~tempo.kr / 4), dur: 0.2).lag;
-    var freq2 = SinOscFB.ar([1, 1.1, 1.05] * lfo, feedback: 0.5, mul: 0.2);
+    var lfo = Line.kr(
+        start: 400,
+        end: 600,
+        dur: 200
+    );
+    var freq = SinOscFB.ar(
+        freq: [1, 1.1, 1.05] * lfo,
+        feedback: 0.5,
+        mul: 0.2
+    );
+    var trig = Trig.ar(LFPulse.ar(~tempo.kr / 4), dur: 0.2).lag;
 
     CombC.ar(
-        in: freq1 * freq2,
+        in: freq * trig,
         maxdelaytime: ~tempo.kr * 4,
         delaytime: ~tempo.kr / 8,
         decaytime: ~tempo.kr

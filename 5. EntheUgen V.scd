@@ -15,7 +15,7 @@ __________________________________________
     );
     var sig2 = LFPulse.kr(
         freq: SinOscFB.kr(~tempo.kr / 8).range(4, 16),
-        width:SinOscFB.kr(~tempo.kr / 8).range(0.2, 1),
+        width: SinOscFB.kr(~tempo.kr / 8).range(0.2, 1),
     );
     sig1 * sig2 * 0.2;
 }

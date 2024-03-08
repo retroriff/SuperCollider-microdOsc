@@ -1,4 +1,6 @@
 /*
+* https://scsynth.org/t/super-cool-supercollider-synthesis-challenge-prize/3777/25
+
              _____                    _____                    _____                   _______                   _____
             /\    \                  /\    \                  /\    \                 /::\    \                 /\    \
            /::\    \                /::\    \                /::\    \               /::::\    \               /::\    \
@@ -44,17 +46,21 @@
 )
 
 (
-~vangelis3 = {
+~vang = {
 	var amp, env, fenv, freq, freq1, freq2, lfo1, osc1, osc2, pitch, pitch2, sig;
-	amp = \amp.kr(0.85, 0.017);
+
+    amp = \amp.kr(0.85, 0.017);
     env = EnvGen.ar(Env.asr(\atk.kr(0.41), \sus.kr(1), \rel.kr(4.1), \crv.kr(0)), \trig.kr(1));
     fenv = EnvGen.ar(Env.asr(\fatk.kr(1.6), \sus.kr(1), \frel.kr(4.7), \fcrv.kr(0)), \trig.kr(1));
 	lfo1 = SinOsc.kr(\lffreq.kr(0.06));
+
     // freq = \freq.kr(240, 0.017);
     freq = MouseX.kr(240, 1000);
 	freq2 = freq + (lfo1 * (\detune.kr(0.06)));
-	osc1 = Saw.ar(freq);
+
+    osc1 = Saw.ar(freq);
 	osc2 = Saw.ar(freq2);
+
 	sig = Mix.ar([osc1, osc2]);
 	sig = RLPF.ar(
         in: sig,
@@ -70,8 +76,4 @@
 }
 )
 
-
-
-/*
-* https://scsynth.org/t/super-cool-supercollider-synthesis-challenge-prize/3777/25
-*/
+~vang.play

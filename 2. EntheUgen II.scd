@@ -18,7 +18,7 @@
 
 (
 ~synth = {
-    var lfo1 = LFSaw.kr(~tempo.kr/4).range(1, 3).tanh;
+    var lfo1 = LFSaw.kr(~tempo.kr / 4).range(1, 3).tanh;
     var lfo2 = LFPulse.kr(~tempo.kr / 2).range(0.2, 1);
 
     Pulse.ar(
