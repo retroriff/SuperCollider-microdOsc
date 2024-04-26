@@ -11,21 +11,27 @@ _____________________________________________________________________________/\\
 */
 
 
+~m11 = Ndef(\m11).play;
+~m11.fadeTime = 10;
+
 (
-~m11 = {
-    var lfo1 = LFPulse.ar(~tempo.kr / 2).range(0.5, 1);
-    var lfo2 = SinOscFB.ar(~tempo.kr * 8).range(0.5, 1);
+~m11[0] = {
+    var lfo1 = LFPulse.ar(t / 2).range(0.5, 1);
+    var lfo2 = SinOscFB.ar(t * 8).range(0.5, 1);
 
     SinOscFB.ar(
         freq: [55, 56].midicps * lfo1 * lfo2,
-        feedback: SinOsc.kr(~tempo.kr / 16, 0).max(0),
+        feedback: SinOsc.kr(t / 16, 0).max(0),
         mul: 1
     ).tanh;
-}
+};
 )
 
+~m12 = Ndef(\m12).vol_(0.3).play;
+~m12.fadeTime = 10;
+
 (
-~m12 = {
+~m12[0] = {
     Mix.fill(10, {
         Ringz.ar(
             in: WhiteNoise.ar(0.001)!2,
@@ -38,29 +44,32 @@ _____________________________________________________________________________/\\
         );
     });
 };
-
-~m12.fadeTime = 60;
 )
 
+~m13 = Ndef(\m13).play;
+~m13.fadeTime = 0;
+
 (
-~m13 = {
+~m13[0] = {
     var lfo = Line.kr(
         start: 400,
         end: 600,
         dur: 200
     );
+
     var freq = SinOscFB.ar(
         freq: [1, 1.1, 1.05] * lfo,
         feedback: 0.5,
         mul: 0.2
     );
-    var trig = Trig.ar(LFPulse.ar(~tempo.kr / 4), dur: 0.2).lag;
+
+    var trig = Trig.ar(LFPulse.ar(t / 4), dur: 0.2).lag;
 
     CombC.ar(
         in: freq * trig,
-        maxdelaytime: ~tempo.kr * 4,
-        delaytime: ~tempo.kr / 8,
-        decaytime: ~tempo.kr
+        maxdelaytime: t * 4,
+        delaytime: t / 8,
+        decaytime: t
     );
-}
+};
 )
