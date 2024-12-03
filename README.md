@@ -12,25 +12,9 @@ _____________________________________________________________________________/\\
         _\///___\///___\///__\///_____\////////__\///_____________\/////______\///////\//_______\/////_______\//////////_____\////////__
 ```
 
-Experimenting with UGens and ProxySpace:
+Experimenting with UGens and nodeproxys. Effects can be added as nodeproxy roles with the [Fx class](https://github.com/retroriff/supercollider-px/blob/master/Fx.sc). Example:
 
 ```
-(
-// Start Proxy
-p = ProxySpace(s).push;
-p.fadeTime = 5;
-p.makeTempoClock(120 / 60);
-p.quant = 4;
-StageLimiter.new(2);
-)
-
-(
-// Panes
-m = ProxyMixer(p, 8);
-m.parent.alwaysOnTop_(true);
-PdefAllGui.new;
-s.makeWindow;
-s.plotTree;
-s.scope(2);
-)
+Ndef(\m11).play;
+Fx(\m11).gverb(1);
 ```

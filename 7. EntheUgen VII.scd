@@ -25,8 +25,10 @@
 
 */
 
+Ndef(\nathan).play;
+
 (
-~nathan = {
+Ndef(\nathan, {
 	var snd, auto, freq, trig;
 	freq = \freq.kr(40);
 	trig = ToggleFF.ar(Dust.ar(8));
@@ -42,11 +44,13 @@
 	// snd = snd + DelayC.ar(snd, 0.05, SinOsc.ar(1, [10, pi]).range(0, 0.4));
 	snd = (snd * 3.dbamp).tanh;
 	snd * 0.1;
-}
+});
 )
 
+Ndef(\vang).play;
+
 (
-~vang = {
+Ndef(\vang, {
 	var amp, env, fenv, freq, freq1, freq2, lfo1, osc1, osc2, pitch, pitch2, sig;
 
     amp = \amp.kr(0.85, 0.017);
@@ -73,7 +77,6 @@
         \size.kr(4)
     );
 	sig * env * 0.1;
-}
+})
 )
 
-~vang.play

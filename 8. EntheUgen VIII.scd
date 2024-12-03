@@ -13,54 +13,63 @@
 
 */
 
+~m81 = Ndef(\m81).play;
+
 (
-~musc = {
+~m81[0] = {
     SinOscFB.ar(
         freq: [100, 101],
-        feedback: LFSaw.kr(~tempo.kr / 4).range(0.1, 1),
-        mul: LFPulse.kr(~tempo.kr / 2).range(0.2, 1)
+        feedback: LFSaw.kr(t / 4).range(0.1, 1),
+        mul: LFPulse.kr(t / 2).range(0.2, 1)
     );
-}
+})
 )
 
+
+Ndef(\hihat).play;
+
 (
-~hihat = {
-    var lfo1 = Trig.ar(in: LFPulse.ar(~tempo.kr * 4), dur: 0.01).lag;
-    var lfo2 = LFPulse.kr(~tempo.kr / 2).range(1, 0.8);
+Ndef(\hihat, {
+    var lfo1 = Trig.ar(in: LFPulse.ar(t * 4), dur: 0.01).lag;
+    var lfo2 = LFPulse.kr(t / 2).range(1, 0.8);
 
     var sig = HPF.ar(
-        in: WhiteNoise.ar(1) !2,
+        in: WhiteNoise.ar(1) ! 2,
         freq: 4000,
         mul: lfo1 * 0.5
     );
 
-    Pan2.ar(sig, TRand.kr(-1, 1, Impulse.kr(~tempo.kr * 4)));
-}
+    Pan2.ar(sig, TRand.kr(-1, 1, Impulse.kr(t * 4)));
+});
 )
 
+Ndef(\reverb).stop;
+
 (
-~reverb = {
+Ndef(\reverb, {
     GVerb.ar(
-        in: ~muscimol.ar,
-        roomsize: LFPulse.ar(~tempo.kr / 4).range(1, 10),
+        in: Ndef(\musc),
+        roomsize: LFPulse.ar(t / 4).range(1, 10),
         revtime: 3,
         damping: 0.5,
         inputbw: 0.5,
         spread: 15,
         drylevel: 1,
-        mul: 0.5
+        mul: 0.4
     );
-}
+});
 )
 
+// FX
+
 (
-~blowPass = {
+Ndef(\bpf, {
     BLowPass4.ar(
-        in: ~muscimol.ar,
-        freq: SinOsc.kr(~tempo.kr / 8).range(700, 20000),
+        in: Ndef(\musc),
+        freq: SinOsc.kr(t / 8).range(700, 20000),
         rq: 0.1
     );
-}
+})
 )
 
 (

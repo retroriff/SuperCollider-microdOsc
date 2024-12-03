@@ -13,11 +13,13 @@
 
 */
 
+~m91 = Ndef(\m91).play;
+
 (
-~dust = {
-    var trig = Impulse.kr(~tempo.kr);
+~m91[0] = {
+    var trig = Impulse.kr(t);
     Greyhole.ar(
-        in: Impulse.ar(~tempo.kr * 4),
+        in: Impulse.ar(t * 4),
         delayTime: 0.1,
         damp: 0.5,
         size: 0.9,
@@ -26,11 +28,13 @@
         modDepth: 0.01,
         modFreq: 1
     );
-}
+})
 )
 
+~m92 = Ndef(\m92).play;
+
 (
-~hole = {
+~m92[0] = {
     var sig = Impulse.ar(MouseX.kr(1, 1000));
     Greyhole.ar(
         in: sig,
@@ -40,5 +44,5 @@
         diff: 0.707,
         feedback: 0.9
     ) * 0.2;
-}
+})
 )

@@ -14,28 +14,33 @@
 
 */
 
+
+~m61 = Ndef(\m61).play;
+
 (
 a = Buffer.loadCollection(s, Scale.minorPentatonic.degrees);
 b = Buffer.loadCollection(s, [0, 12, 15, 19]);
 
-~dopse = {
+~m61[0] = {
 	var index, sig, pch, freq;
-	index = LFDNoise0.kr(~tempo.kr / 4).range(0, 1);
+	index = LFDNoise0.kr(t / 4).range(0, 1);
     index = (index * BufFrames.kr(a)).poll;
     pch = (Index.kr(a, index) + 40).lag;
 	freq = pch.midicps;
-	sig = VarSaw.ar(freq, mul: 0.2!2);
+	sig = VarSaw.ar(freq, mul: 0.2 ! 2);
 	sig = CombN.ar(sig, 0.31, 0.31, 2, 1);
 }
 )
 
+~m62 = Ndef(\m62).play;
+
 (
 b = Buffer.loadCollection(s, Scale.minorPentatonic.degrees);
 
-~degree2 = {
+~m62[0] = {
     var freq = Index.kr(
         bufnum: b,
-        in: LFSaw.kr(~tempo.kr / 4).range(0, 5)
+        in: LFSaw.kr(t / 4).range(0, 5)
     );
     VarSaw.ar(
         freq: (freq + 40).midicps,
@@ -44,16 +49,20 @@ b = Buffer.loadCollection(s, Scale.minorPentatonic.degrees);
 }
 )
 
+~m63 = Ndef(\m63).play;
+
 (
-~dr1 = {
+~m63[0] = {
     RLPF.ar(
         in: LFPulse.ar([28, 40].midicps, 0.15),
-        freq: SinOsc.kr(~tempo.kr).range(300, 400),
-        rq: LFNoise0.kr(~tempo.kr / 8).range(0.1, 0.9),
-        mul: LFPulse.kr(~tempo.kr * 4).range(0, 0.5).lag(0.1)
+        freq: SinOsc.kr(t).range(300, 400),
+        rq: LFNoise0.kr(t / 8).range(0.1, 0.9),
+        mul: LFPulse.kr(t * 4).range(0, 0.5).lag(0.1)
     );
 }
 )
+
+// FX
 
 (
 ~fx1 = {
@@ -71,7 +80,7 @@ b = Buffer.loadCollection(s, Scale.minorPentatonic.degrees);
 ~fx1 = {
     BLowPass4.ar(
         in: ~dr1.ar,
-        freq: SinOsc.kr(~tempo.kr / 16).range(700, 20000),
+        freq: SinOsc.kr(t / 16).range(700, 20000),
         rq: 0.1
     );
 }
@@ -81,9 +90,9 @@ b = Buffer.loadCollection(s, Scale.minorPentatonic.degrees);
 ~fx1 = {
     RHPF.ar(
         in: ~dr1.ar,
-        freq: SinOsc.kr(~tempo.kr / 8).range(1000, 3000),
+        freq: SinOsc.kr(t / 8).range(1000, 3000),
         rq: 0.1,
-        mul: LFPulse.kr(~tempo.kr).range(0, 1)
+        mul: LFPulse.kr(t).range(0, 1)
     );
 }
 )
@@ -92,9 +101,9 @@ b = Buffer.loadCollection(s, Scale.minorPentatonic.degrees);
 ~fx1 = {
     RLPF.ar(
         in: ~dr1.ar,
-        freq: LFSaw.kr(~tempo.kr / 8).range(200, 700),
+        freq: LFSaw.kr(t / 8).range(200, 700),
         rq: 0.1,
-        mul: LFPulse.kr(~tempo.kr).range(0, 1)
+        mul: LFPulse.kr(t).range(0, 1)
     );
 }
 )
